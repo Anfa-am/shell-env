@@ -17,7 +17,9 @@ let $FZF_DEFAULT_COMMAND = 'ag -g ""'
 
 let g:loaded_matchparen=2
 
+
 highlight BookmarkSign ctermbg=NONE ctermfg=160
+
 let g:bookmark_sign = '♥'
 
 call plug#begin()
@@ -30,20 +32,27 @@ Plug 'hail2u/vim-css3-syntax'
 Plug 'leafgarland/typescript-vim'
 Plug 'mustache/vim-mustache-handlebars'
 
-Plug 'honza/vim-snippets'
+Plug 'mhinz/vim-startify'
 Plug 'Yggdroot/indentLine'
 Plug 'MattesGroeger/vim-bookmarks'
-Plug 'ervandew/supertab'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-fugitive'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'alvan/vim-closetag'
+Plug 'majutsushi/tagbar'
 Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
 Plug 'scrooloose/nerdcommenter'
 Plug 'scrooloose/nerdtree'
 Plug 'airblade/vim-gitgutter'
 Plug 'easymotion/vim-easymotion'
+
+Plug 'Shougo/deoplete.nvim'
+Plug 'Shougo/neosnippet.vim'
+Plug 'Shougo/neosnippet-snippets'
+Plug 'roxma/nvim-yarp'
+Plug 'roxma/vim-hug-neovim-rpc'
+Plug 'honza/vim-snippets'
 call plug#end()
 
 imap jj <Esc>
@@ -52,10 +61,10 @@ let mapleader=" "
 
 nmap <leader><tab> :FZ<CR>
 nmap <leader><leader><tab> :Ag <CR>
-nmap <leader><leader><leader> :NERDTreeFind<CR>
+nmap <leader><leader><leader> :NERDTreeFind<CR>:vertical resize 30<CR>
 
 nmap <leader>s :Gstatus<CR>
-nmap <leader>c :Gcommit<CR>
+nmap <leader>c :!git commit -a<CR>
 nmap <leader>b :Gblame<CR>
 
 nmap <leader>sc :setlocal spell spelllang=en_us<CR>
@@ -85,9 +94,35 @@ nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
 nnoremap <C-h> <C-w>h
 nnoremap <C-l> <C-w>l
-noremap <Up> <NOP>
 
-noremap <Down> <NOP>
-noremap <Left> <NOP>
-noremap <Right> <NOP>
+let g:deoplete#enable_at_startup = 1
+
+inoremap <silent><expr> <C-k>
+      \ pumvisible() ? "\<C-p>" : "\<C-k>"
+
+inoremap <silent><expr> <C-j>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<C-j>" :
+      \ deoplete#mappings#manual_complete()
+
+" inoremap <silent><expr> <C-c>
+"       \ pumvisible() ? "\<C-e>" : "\<C-c>"
+
+function! s:check_back_space() abort "{{{
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~ '\s'
+endfunction"}}}
+
+let g:deoplete#sources = {}
+let g:deoplete#sources._ = ['neosnippet', 'buffer', 'tag']
+let deoplete#tag#cache_limit_size = 10000000
+
+let g:neosnippet#snippets_directory='~/.vim/plugged/vim-snippets/snippets,~/.vim/custom/dotitup_snippets'
+
+imap <expr><TAB>
+ \ neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" :
+ \ pumvisible() ? "\<C-n>" : "\<TAB>"
+
+" imap <expr><TAB>
+"   \ neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
 
