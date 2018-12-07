@@ -3,17 +3,24 @@ set nowrap
 set expandtab
 set tabstop=2
 set softtabstop=2
+set number
 set shiftwidth=2
 set list
 set listchars=eol:¬,trail:·
 
 let g:indentLine_char = '¦'
 
+let g:ale_sign_error = '×'
+let g:ale_sign_warning = 'Ø'
+
+let g:ale_set_highlights = 0
+
+highlight LineNr ctermfg=black
+
 set hlsearch
 
 set fileformat=unix
 
-let $FZF_DEFAULT_COMMAND = 'ag -g ""'
 
 let g:loaded_matchparen=2
 
@@ -32,6 +39,10 @@ Plug 'hail2u/vim-css3-syntax'
 Plug 'leafgarland/typescript-vim'
 Plug 'mustache/vim-mustache-handlebars'
 
+Plug 'tpope/vim-repeat'
+Plug 'terryma/vim-expand-region'
+Plug 'w0rp/ale'
+Plug 'Raimondi/delimitMate'
 Plug 'mhinz/vim-startify'
 Plug 'Yggdroot/indentLine'
 Plug 'MattesGroeger/vim-bookmarks'
@@ -42,6 +53,7 @@ Plug 'alvan/vim-closetag'
 Plug 'majutsushi/tagbar'
 Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
+Plug 'dkprice/vim-easygrep'
 Plug 'scrooloose/nerdcommenter'
 Plug 'scrooloose/nerdtree'
 Plug 'airblade/vim-gitgutter'
@@ -60,8 +72,11 @@ imap jj <Esc>
 let mapleader=" "
 
 nmap <leader><tab> :FZ<CR>
-nmap <leader><leader><tab> :Ag <CR>
+nmap <leader><leader><tab> :Grep <C-R><C-W><CR>
 nmap <leader><leader><leader> :NERDTreeFind<CR>:vertical resize 30<CR>
+
+nmap <leader>n :cn<CR>
+nmap <leader>m :cp<CR>
 
 nmap <leader>s :Gstatus<CR>
 nmap <leader>c :!git commit -a<CR>
@@ -125,4 +140,3 @@ imap <expr><TAB>
 
 " imap <expr><TAB>
 "   \ neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
-
