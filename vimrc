@@ -15,7 +15,7 @@ let g:ale_sign_warning = 'Ø'
 
 let g:ale_set_highlights = 0
 
-highlight LineNr ctermfg=black
+highlight LineNr ctermfg=32
 
 set hlsearch
 
@@ -72,7 +72,11 @@ imap jj <Esc>
 let mapleader=" "
 
 nmap <leader><tab> :FZ<CR>
+nmap <leader>/ :Grep
+
 nmap <leader><leader><tab> :Grep <C-R><C-W><CR>
+vmap <leader><leader><tab>  y:Grep <C-r>"<CR>
+
 nmap <leader><leader><leader> :NERDTreeFind<CR>:vertical resize 30<CR>
 
 nmap <leader>n :cn<CR>
