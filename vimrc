@@ -11,8 +11,10 @@ set listchars=eol:¬,trail:·
 let g:indentLine_char = '¦'
 
 let g:ale_sign_error = '×'
-let g:ale_sign_warning = 'Ø'
+let g:ale_sign_warning = '͛'
 
+highlight clear ALEErrorSign
+highlight clear ALEWarningSign
 let g:ale_set_highlights = 0
 
 highlight LineNr ctermfg=32
@@ -21,9 +23,9 @@ set hlsearch
 
 set fileformat=unix
 
+let g:ale_completion_enabled = 1
 
 let g:loaded_matchparen=2
-
 
 highlight BookmarkSign ctermbg=NONE ctermfg=160
 
