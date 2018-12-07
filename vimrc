@@ -55,7 +55,6 @@ Plug 'alvan/vim-closetag'
 Plug 'majutsushi/tagbar'
 Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
-Plug 'dkprice/vim-easygrep'
 Plug 'scrooloose/nerdcommenter'
 Plug 'scrooloose/nerdtree'
 Plug 'airblade/vim-gitgutter'
@@ -74,10 +73,10 @@ imap jj <Esc>
 let mapleader=" "
 
 nmap <leader><tab> :FZ<CR>
-nmap <leader>/ :Grep
+nmap <leader>/ :Ag 
 
-nmap <leader><leader><tab> :Grep <C-R><C-W><CR>
-vmap <leader><leader><tab>  y:Grep <C-r>"<CR>
+nmap <leader><leader><tab> :Ag <C-R><C-W><CR>
+vmap <leader><leader><tab>  y:Ag <C-r>"<CR>
 
 nmap <leader><leader><leader> :NERDTreeFind<CR>:vertical resize 30<CR>
 
