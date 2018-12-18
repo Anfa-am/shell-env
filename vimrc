@@ -27,7 +27,6 @@ let g:ale_completion_enabled = 1
 
 let g:loaded_matchparen=2
 
-highlight BookmarkSign ctermbg=NONE ctermfg=160
 
 let g:bookmark_sign = '♥'
 
@@ -42,6 +41,10 @@ Plug 'leafgarland/typescript-vim'
 Plug 'mustache/vim-mustache-handlebars'
 
 Plug 'tpope/vim-repeat'
+Plug 'powerline/powerline'
+Plug 'vim-airline/vim-airline-themes'
+Plug 'vim-airline/vim-airline'
+Plug 'junegunn/vim-peekaboo'
 Plug 'terryma/vim-expand-region'
 Plug 'w0rp/ale'
 Plug 'Raimondi/delimitMate'
@@ -55,8 +58,10 @@ Plug 'alvan/vim-closetag'
 Plug 'majutsushi/tagbar'
 Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
+Plug 'junegunn/gv.vim'
 Plug 'scrooloose/nerdcommenter'
 Plug 'scrooloose/nerdtree'
+Plug 'xuyuanp/nerdtree-git-plugin'
 Plug 'airblade/vim-gitgutter'
 Plug 'easymotion/vim-easymotion'
 
@@ -86,6 +91,7 @@ nmap <leader>m :cp<CR>
 nmap <leader>s :Gstatus<CR>
 nmap <leader>c :!git commit -a<CR>
 nmap <leader>b :Gblame<CR>
+nmap <leader>h :GV<CR>
 
 nmap <leader>sc :setlocal spell spelllang=en_us<CR>
 
