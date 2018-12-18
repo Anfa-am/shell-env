@@ -7,6 +7,7 @@ set number
 set shiftwidth=2
 set list
 set listchars=eol:¬,trail:·
+set clipboard=unnamed
 
 let g:indentLine_char = '¦'
 
@@ -37,11 +38,11 @@ Plug 'othree/html5-syntax.vim'
 Plug 'vim-scripts/vim-emblem'
 Plug 'mxw/vim-jsx'
 Plug 'hail2u/vim-css3-syntax'
+Plug 'ap/vim-css-color'
 Plug 'leafgarland/typescript-vim'
 Plug 'mustache/vim-mustache-handlebars'
 
 Plug 'tpope/vim-repeat'
-Plug 'powerline/powerline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'vim-airline/vim-airline'
 Plug 'junegunn/vim-peekaboo'
@@ -151,3 +152,4 @@ imap <expr><TAB>
 
 " imap <expr><TAB>
 "   \ neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+"
