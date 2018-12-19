@@ -9,10 +9,15 @@ set list
 set listchars=eol:¬,trail:·
 set clipboard=unnamed
 
+set foldmethod=syntax
+set background=dark
+
 let g:indentLine_char = '¦'
 
 let g:ale_sign_error = '×'
 let g:ale_sign_warning = '͛'
+
+let g:airline#extensions#tabline#enabled = 1
 
 highlight clear ALEErrorSign
 highlight clear ALEWarningSign
@@ -41,6 +46,7 @@ Plug 'hail2u/vim-css3-syntax'
 Plug 'ap/vim-css-color'
 Plug 'leafgarland/typescript-vim'
 Plug 'mustache/vim-mustache-handlebars'
+Plug 'othree/html5.vim'
 
 Plug 'tpope/vim-repeat'
 Plug 'vim-airline/vim-airline-themes'
@@ -65,6 +71,8 @@ Plug 'scrooloose/nerdtree'
 Plug 'xuyuanp/nerdtree-git-plugin'
 Plug 'airblade/vim-gitgutter'
 Plug 'easymotion/vim-easymotion'
+
+Plug 'christoomey/vim-tmux-navigator'
 
 Plug 'Shougo/deoplete.nvim'
 Plug 'Shougo/neosnippet.vim'
@@ -94,6 +102,11 @@ nmap <leader>c :!git commit -a<CR>
 nmap <leader>b :Gblame<CR>
 nmap <leader>h :GV<CR>
 
+
+nmap ! :tab split<CR> :Startify<CR>
+nmap \ :tabn<CR>
+nmap \| :tabp<CR>
+
 nmap <leader>sc :setlocal spell spelllang=en_us<CR>
 
 nmap /  :/\c
@@ -109,10 +122,6 @@ nmap  ++ :vs<CR>
 nmap  )) :res 10000<CR>
 nmap  (( :vertical resize 10000<CR>
 nmap  () :wincmd =<CR>
-
-map Y "*y"
-map X "+c
-map P "+p
 
 map <leader>f *
 vmap <leader>f y/<C-R>"<CR>
@@ -149,6 +158,8 @@ let g:neosnippet#snippets_directory='~/.vim/plugged/vim-snippets/snippets,~/.vim
 imap <expr><TAB>
  \ neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" :
  \ pumvisible() ? "\<C-n>" : "\<TAB>"
+
+let startify_change_to_dir = 0
 
 " imap <expr><TAB>
 "   \ neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
