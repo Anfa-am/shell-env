@@ -28,6 +28,9 @@ let g:bookmark_sign = '♥'
 highlight LineNr ctermfg=32
 highlight clear ALEErrorSign
 highlight clear ALEWarningSign
+highlight DiffAdd ctermfg=230 ctermbg=10
+highlight DiffChange ctermfg=230 ctermbg=96
+highlight DiffDelete ctermfg=230 ctermbg=196
 
 call plug#begin()
 
@@ -96,7 +99,7 @@ imap jj <Esc>
 let mapleader=" "
 
 nmap <leader><tab> :FZ<CR>
-nmap <leader>/ :Ag 
+nmap <leader>/ :Ag
 
 nmap <leader><leader><tab> :Ag <C-R><C-W><CR>
 vmap <leader><leader><tab>  y:Ag <C-r>"<CR>
