@@ -1,4 +1,5 @@
 syntax on
+
 set nowrap
 set expandtab
 set tabstop=2
@@ -8,35 +9,29 @@ set shiftwidth=2
 set list
 set listchars=eol:¬,trail:·
 set clipboard=unnamed
-
 set foldmethod=syntax
 set background=dark
-
-let g:indentLine_char = '¦'
-
-let g:ale_sign_error = '×'
-let g:ale_sign_warning = '͛'
-
-let g:airline#extensions#tabline#enabled = 1
-
-highlight clear ALEErrorSign
-highlight clear ALEWarningSign
-let g:ale_set_highlights = 0
-
-highlight LineNr ctermfg=32
-
+set tabline='showtabline'
 set hlsearch
-
 set fileformat=unix
 
+let g:indentLine_char = '¦'
+let startify_change_to_dir = 0
+let g:ale_sign_error = '×'
+let g:ale_sign_warning = '͛'
+let g:airline#extensions#tabline#enabled = 1
+let g:ale_set_highlights = 0
 let g:ale_completion_enabled = 1
-
 let g:loaded_matchparen=2
-
-
 let g:bookmark_sign = '♥'
 
+highlight LineNr ctermfg=32
+highlight clear ALEErrorSign
+highlight clear ALEWarningSign
+
 call plug#begin()
+
+"syntax
 Plug 'jelera/vim-javascript-syntax'
 Plug 'kchmck/vim-coffee-script'
 Plug 'othree/html5-syntax.vim'
@@ -48,38 +43,52 @@ Plug 'leafgarland/typescript-vim'
 Plug 'mustache/vim-mustache-handlebars'
 Plug 'othree/html5.vim'
 
-Plug 'tpope/vim-repeat'
-Plug 'vim-airline/vim-airline-themes'
+"editor
+Plug 'mhinz/vim-startify'
 Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+Plug 'majutsushi/tagbar'
 Plug 'junegunn/vim-peekaboo'
 Plug 'terryma/vim-expand-region'
+Plug 'scrooloose/nerdtree'
+
+"tools
 Plug 'w0rp/ale'
 Plug 'Raimondi/delimitMate'
-Plug 'mhinz/vim-startify'
 Plug 'Yggdroot/indentLine'
-Plug 'MattesGroeger/vim-bookmarks'
-Plug 'tpope/vim-surround'
 Plug 'tpope/vim-fugitive'
-Plug 'terryma/vim-multiple-cursors'
-Plug 'alvan/vim-closetag'
-Plug 'majutsushi/tagbar'
+Plug 'MattesGroeger/vim-bookmarks'
+
+"search
 Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
+
+"git
+
 Plug 'junegunn/gv.vim'
-Plug 'scrooloose/nerdcommenter'
-Plug 'scrooloose/nerdtree'
-Plug 'xuyuanp/nerdtree-git-plugin'
 Plug 'airblade/vim-gitgutter'
-Plug 'easymotion/vim-easymotion'
+Plug 'xuyuanp/nerdtree-git-plugin'
 
-Plug 'christoomey/vim-tmux-navigator'
-
+"autocomplete
 Plug 'Shougo/deoplete.nvim'
-Plug 'Shougo/neosnippet.vim'
-Plug 'Shougo/neosnippet-snippets'
 Plug 'roxma/nvim-yarp'
 Plug 'roxma/vim-hug-neovim-rpc'
+Plug 'Shougo/neosnippet.vim'
+Plug 'Shougo/neosnippet-snippets'
 Plug 'honza/vim-snippets'
+
+
+"navigatoin
+Plug 'easymotion/vim-easymotion'
+Plug 'christoomey/vim-tmux-navigator'
+
+"utilities
+Plug 'tpope/vim-surround'
+Plug 'terryma/vim-multiple-cursors'
+Plug 'alvan/vim-closetag'
+Plug 'tpope/vim-repeat'
+Plug 'scrooloose/nerdcommenter'
+
 call plug#end()
 
 imap jj <Esc>
@@ -100,10 +109,12 @@ nmap <leader>m :cp<CR>
 nmap <leader>s :Gstatus<CR>
 nmap <leader>c :!git commit -a<CR>
 nmap <leader>b :Gblame<CR>
+nmap <leader>d :Gdiff<CR>
 nmap <leader>h :GV<CR>
 
 
 nmap ! :tab split<CR> :Startify<CR>
+nmap <leader>1 :tab split<CR>
 nmap \ :tabn<CR>
 nmap \| :tabp<CR>
 
@@ -131,6 +142,22 @@ nnoremap <C-k> <C-w>k
 nnoremap <C-h> <C-w>h
 nnoremap <C-l> <C-w>l
 
+
+function! s:build_quickfix_list(lines)
+  call setqflist(map(copy(a:lines), '{ "filename": v:val }'))
+  copen
+  cc
+endfunction
+
+let g:fzf_action = {
+  \ 'ctrl-q': function('s:build_quickfix_list'),
+  \ 'ctrl-t': 'tab split',
+  \ 'ctrl-x': 'split',
+  \ 'ctrl-v': 'vsplit' }
+
+let $FZF_DEFAULT_OPTS = '--bind ctrl-a:select-all'
+
+"autocomplete
 let g:deoplete#enable_at_startup = 1
 
 inoremap <silent><expr> <C-k>
@@ -140,9 +167,6 @@ inoremap <silent><expr> <C-j>
       \ pumvisible() ? "\<C-n>" :
       \ <SID>check_back_space() ? "\<C-j>" :
       \ deoplete#mappings#manual_complete()
-
-" inoremap <silent><expr> <C-c>
-"       \ pumvisible() ? "\<C-e>" : "\<C-c>"
 
 function! s:check_back_space() abort "{{{
   let col = col('.') - 1
@@ -158,9 +182,3 @@ let g:neosnippet#snippets_directory='~/.vim/plugged/vim-snippets/snippets,~/.vim
 imap <expr><TAB>
  \ neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" :
  \ pumvisible() ? "\<C-n>" : "\<TAB>"
-
-let startify_change_to_dir = 0
-
-" imap <expr><TAB>
-"   \ neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
-"
