@@ -1,5 +1,6 @@
 syntax on
 
+set clipboard+=unnamedplus
 set nowrap
 set expandtab
 set tabstop=2
@@ -8,7 +9,6 @@ set number
 set shiftwidth=2
 set list
 set listchars=eol:¬,trail:·
-set clipboard=unnamed
 set foldmethod=syntax
 set background=dark
 set tabline='showtabline'
@@ -18,12 +18,12 @@ set fileformat=unix
 let g:indentLine_char = '¦'
 let startify_change_to_dir = 0
 let g:ale_sign_error = '×'
-let g:ale_sign_warning = '͛'
+let g:ale_sign_warning = '*'
 let g:airline#extensions#tabline#enabled = 1
 let g:ale_set_highlights = 0
 let g:ale_completion_enabled = 1
 let g:loaded_matchparen=2
-let g:bookmark_sign = '♥'
+let g:bookmark_sign = '#'
 
 highlight LineNr ctermfg=32
 highlight clear ALEErrorSign
@@ -51,7 +51,6 @@ Plug 'mhinz/vim-startify'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'majutsushi/tagbar'
-Plug 'junegunn/vim-peekaboo'
 Plug 'terryma/vim-expand-region'
 Plug 'scrooloose/nerdtree'
 
@@ -137,6 +136,11 @@ nmap  )) :res 10000<CR>
 nmap  (( :vertical resize 10000<CR>
 nmap  () :wincmd =<CR>
 
+map Y y
+
+map X "+c
+map P "+p
+
 map <leader>f *
 vmap <leader>f y/<C-R>"<CR>
 
@@ -185,3 +189,9 @@ let g:neosnippet#snippets_directory='~/.vim/plugged/vim-snippets/snippets,~/.vim
 imap <expr><TAB>
  \ neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" :
  \ pumvisible() ? "\<C-n>" : "\<TAB>"
+
+if empty(glob('~/.vim/autoload/plug.vim'))
+  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
