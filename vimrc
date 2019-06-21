@@ -1,13 +1,13 @@
+set runtimepath+=/usr/share/vim/vimfiles
+
 syntax on
 
 set clipboard+=unnamedplus
 set nowrap
-set expandtab
-set tabstop=2
-set softtabstop=2
+set tabstop=4
 set number
-set shiftwidth=2
-set list
+set shiftwidth=4
+set expandtab
 set listchars=eol:¬,trail:·
 set foldmethod=syntax
 set background=dark
@@ -32,9 +32,10 @@ highlight DiffAdd ctermfg=230 ctermbg=10
 highlight DiffChange ctermfg=230 ctermbg=96
 highlight DiffDelete ctermfg=230 ctermbg=196
 
-call plug#begin()
+call plug#begin('~/.vim/plugged')
 
 "syntax
+Plug 'posva/vim-vue'
 Plug 'jelera/vim-javascript-syntax'
 Plug 'kchmck/vim-coffee-script'
 Plug 'othree/html5-syntax.vim'
@@ -72,15 +73,9 @@ Plug 'airblade/vim-gitgutter'
 Plug 'xuyuanp/nerdtree-git-plugin'
 
 "autocomplete
-Plug 'Shougo/deoplete.nvim'
-Plug 'roxma/nvim-yarp'
-Plug 'roxma/vim-hug-neovim-rpc'
-Plug 'Shougo/neosnippet.vim'
-Plug 'Shougo/neosnippet-snippets'
-Plug 'honza/vim-snippets'
+Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 
-
-"navigatoin
+"navigation
 Plug 'easymotion/vim-easymotion'
 Plug 'christoomey/vim-tmux-navigator'
 
@@ -173,7 +168,6 @@ inoremap <silent><expr> <C-k>
 inoremap <silent><expr> <C-j>
       \ pumvisible() ? "\<C-n>" :
       \ <SID>check_back_space() ? "\<C-j>" :
-      \ deoplete#mappings#manual_complete()
 
 function! s:check_back_space() abort "{{{
   let col = col('.') - 1
@@ -181,13 +175,10 @@ function! s:check_back_space() abort "{{{
 endfunction"}}}
 
 let g:deoplete#sources = {}
-let g:deoplete#sources._ = ['neosnippet', 'buffer', 'tag']
+let g:deoplete#sources._ = ['buffer', 'tag']
 let deoplete#tag#cache_limit_size = 10000000
 
-let g:neosnippet#snippets_directory='~/.vim/plugged/vim-snippets/snippets,~/.vim/custom/dotitup_snippets'
-
 imap <expr><TAB>
- \ neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" :
  \ pumvisible() ? "\<C-n>" : "\<TAB>"
 
 if empty(glob('~/.vim/autoload/plug.vim'))
@@ -195,3 +186,17 @@ if empty(glob('~/.vim/autoload/plug.vim'))
     \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
   autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
+
+func! Multiple_cursors_before()
+  if deoplete#is_enabled()
+    call deoplete#disable()
+    let g:deoplete_is_enable_before_multi_cursors = 1
+  else
+    let g:deoplete_is_enable_before_multi_cursors = 0
+  endif
+endfunc
+func! Multiple_cursors_after()
+  if g:deoplete_is_enable_before_multi_cursors
+    call deoplete#enable()
+  endif
+endfunc
