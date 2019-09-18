@@ -59,21 +59,25 @@ Plug 'scrooloose/nerdtree'
 Plug 'w0rp/ale'
 Plug 'Raimondi/delimitMate'
 Plug 'Yggdroot/indentLine'
-Plug 'tpope/vim-fugitive'
 Plug 'MattesGroeger/vim-bookmarks'
+Plug 'ludovicchabant/vim-gutentags'
 
 "search
 Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
 
 "git
-
 Plug 'junegunn/gv.vim'
 Plug 'airblade/vim-gitgutter'
+Plug 'tpope/vim-fugitive'
 Plug 'xuyuanp/nerdtree-git-plugin'
 
 "autocomplete
-Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+Plug 'roxma/nvim-yarp'
+Plug 'ncm2/ncm2'
+Plug 'ncm2/ncm2-jedi'
+Plug 'ncm2/ncm2-bufword'
+Plug 'ncm2/ncm2-path'
 
 "navigation
 Plug 'easymotion/vim-easymotion'
@@ -145,6 +149,7 @@ nnoremap <C-h> <C-w>h
 nnoremap <C-l> <C-w>l
 
 
+"search
 function! s:build_quickfix_list(lines)
   call setqflist(map(copy(a:lines), '{ "filename": v:val }'))
   copen
@@ -159,44 +164,40 @@ let g:fzf_action = {
 
 let $FZF_DEFAULT_OPTS = '--bind ctrl-a:select-all'
 
+"tags
+set tags=~/.cache/tags/.tags;,.tags
+let g:gutentags_project_root = ['.git']
+let g:gutentags_ctags_tagfile = '.tags'
+
+let g:gutentags_modules = ['ctags']
+
+let g:gutentags_cache_dir = expand('~/.cache/tags')
+let g:gutentags_ctags_extra_args = ['--fields=+niazS', '--extra=+q']
+let g:gutentags_ctags_extra_args += ['--output-format=e-ctags']
+let g:tagbar_ctags_bin = '/usr/bin/ctags'
+
 "autocomplete
-let g:deoplete#enable_at_startup = 1
-
-inoremap <silent><expr> <C-k>
-      \ pumvisible() ? "\<C-p>" : "\<C-k>"
-
-inoremap <silent><expr> <C-j>
-      \ pumvisible() ? "\<C-n>" :
-      \ <SID>check_back_space() ? "\<C-j>" :
-
-function! s:check_back_space() abort "{{{
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~ '\s'
-endfunction"}}}
-
-let g:deoplete#sources = {}
-let g:deoplete#sources._ = ['buffer', 'tag']
-let deoplete#tag#cache_limit_size = 10000000
-
+autocmd BufEnter * call ncm2#enable_for_buffer()
+set completeopt=menuone,noselect,noinsert
+set shortmess+=c
+inoremap <c-c> <ESC>
 imap <expr><TAB>
  \ pumvisible() ? "\<C-n>" : "\<TAB>"
+imap <expr><s-tab>
+ \ pumvisible() ? "\<C-p>" : "\<TAB>"
+let ncm2#popup_delay = 5
+let ncm2#complete_length = [[1, 1]]
+let g:ncm2#matcher = 'substrfuzzy'
+let g:jedi#auto_initialization = 1
+let g:jedi#completions_enabled = 0
+let g:jedi#auto_vim_configuration = 0
+let g:jedi#smart_auto_mappings = 0
+let g:jedi#popup_on_dot = 0
+let g:jedi#completions_command = ""
+let g:jedi#show_call_signatures = "1"
 
 if empty(glob('~/.vim/autoload/plug.vim'))
   silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
     \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
   autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
-
-func! Multiple_cursors_before()
-  if deoplete#is_enabled()
-    call deoplete#disable()
-    let g:deoplete_is_enable_before_multi_cursors = 1
-  else
-    let g:deoplete_is_enable_before_multi_cursors = 0
-  endif
-endfunc
-func! Multiple_cursors_after()
-  if g:deoplete_is_enable_before_multi_cursors
-    call deoplete#enable()
-  endif
-endfunc
