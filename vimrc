@@ -176,6 +176,34 @@ let g:gutentags_ctags_extra_args = ['--fields=+niazS', '--extra=+q']
 let g:gutentags_ctags_extra_args += ['--output-format=e-ctags']
 let g:tagbar_ctags_bin = '/usr/bin/ctags'
 
+  let g:tagbar_type_typescript = {
+    \ 'ctagstype': 'typescript',
+    \ 'kinds': [
+      \ 'c:class',
+      \ 'n:namespace',
+      \ 'f:function',
+      \ 'G:generator',
+      \ 'v:variable',
+      \ 'l:local',
+      \ 'm:method',
+      \ 'p:property',
+      \ 'i:interface',
+      \ 'g:enum',
+      \ 't:type',
+      \ 'a:alias',
+    \ ],
+    \'sro': '.',
+      \ 'kind2scope' : {
+      \ 'c' : 'class',
+      \ 'n' : 'namespace',
+      \ 'i' : 'interface',
+      \ 'f' : 'function',
+      \ 'G' : 'generator',
+      \ 'm' : 'method',
+      \ 'p' : 'property',
+      \},
+  \ }
+
 "autocomplete
 autocmd BufEnter * call ncm2#enable_for_buffer()
 set completeopt=menuone,noselect,noinsert
