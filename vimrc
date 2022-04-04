@@ -90,6 +90,8 @@ Plug 'terryma/vim-multiple-cursors'
 Plug 'alvan/vim-closetag'
 Plug 'tpope/vim-repeat'
 Plug 'scrooloose/nerdcommenter'
+Plug 'yaroot/vissort'
+Plug 'sk1418/HowMuch'
 
 call plug#end()
 
@@ -97,7 +99,7 @@ imap jj <Esc>
 
 let mapleader=" "
 
-nmap <leader><tab> :FZ<CR>
+nmap <leader><tab> :GFiles<CR>
 nmap <leader>/ :Ag 
 nmap <leader>? :HowIn 
 
