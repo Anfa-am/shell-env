@@ -10,42 +10,66 @@ set shiftwidth=4
 set expandtab
 set listchars=eol:¬,trail:·
 set foldmethod=syntax
+set nofoldenable
 set background=dark
 set tabline='showtabline'
 set hlsearch
 set fileformat=unix
+
+let g:loaded_matchparen        = 1
+let g:loaded_matchit           = 1
+let g:loaded_logiPat           = 1
+let g:loaded_rrhelper          = 1
+let g:loaded_tarPlugin         = 1
+" let g:loaded_man               = 1
+let g:loaded_gzip              = 1
+let g:loaded_zipPlugin         = 1
+let g:loaded_2html_plugin      = 1
+let g:loaded_shada_plugin      = 1
+let g:loaded_spellfile_plugin  = 1
+let g:loaded_netrw             = 1
+let g:loaded_netrwPlugin       = 1
+let g:loaded_tutor_mode_plugin = 1
+let g:loaded_remote_plugins    = 1
 
 let g:indentLine_char = '¦'
 let startify_change_to_dir = 0
 let g:ale_sign_error = '×'
 let g:ale_sign_warning = '*'
 let g:airline#extensions#tabline#enabled = 1
-let g:ale_set_highlights = 0
+let g:ale_set_highlights = 1
+let g:ale_fix_on_save = 1
 let g:ale_completion_enabled = 1
 let g:loaded_matchparen=2
 let g:bookmark_sign = '#'
+let g:ale_fixers = {
+ \ 'javascript': ['prettier', 'eslint'],
+ \ 'typescript': ['prettier', 'eslint'],
+ \ 'javascriptreact': ['prettier', 'eslint'],
+ \ 'typescriptreact': ['prettier', 'eslint'],
+ \ }
 
 highlight LineNr ctermfg=32
-highlight clear ALEErrorSign
-highlight clear ALEWarningSign
+"highlight clear ALEErrorSign
+"highlight clear ALEWarningSign
 highlight DiffAdd ctermfg=230 ctermbg=10
 highlight DiffChange ctermfg=230 ctermbg=96
 highlight DiffDelete ctermfg=230 ctermbg=196
 
 call plug#begin('~/.vim/plugged')
-
 "syntax
 Plug 'posva/vim-vue'
 Plug 'jelera/vim-javascript-syntax'
-Plug 'kchmck/vim-coffee-script'
+Plug 'othree/html5.vim'
 Plug 'othree/html5-syntax.vim'
-Plug 'vim-scripts/vim-emblem'
 Plug 'mxw/vim-jsx'
 Plug 'hail2u/vim-css3-syntax'
-Plug 'ap/vim-css-color'
 Plug 'leafgarland/typescript-vim'
-Plug 'mustache/vim-mustache-handlebars'
-Plug 'othree/html5.vim'
+Plug 'peitalin/vim-jsx-typescript'
+Plug 'jparise/vim-graphql'
+Plug 'ap/vim-css-color'
+Plug 'styled-components/vim-styled-components'
+
 
 "editor
 Plug 'mhinz/vim-startify'
@@ -113,7 +137,7 @@ nmap <leader>m :cp<CR>
 
 nmap <leader>s :Gstatus<CR>
 nmap <leader>c :!git commit -a<CR>
-nmap <leader>b :Gblame<CR>
+nmap <leader>b :Git blame<CR>
 nmap <leader>d :Gdiff<CR>
 nmap <leader>h :GV<CR>
 
@@ -127,6 +151,7 @@ nmap <leader>sc :setlocal spell spelllang=en_us<CR>
 
 nmap /  :/\c
 nmap <leader>ws  :%s/\s\+$//<CR>
+nmap <leader>W :ALEFix<CR>
 nmap W  :w<CR>
 
 nmap <leader>t :TagbarToggle<CR>
