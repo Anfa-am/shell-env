@@ -1,6 +1,16 @@
-export ZSH=$HOME/.oh-my-zsh
+# If you come from bash you might have to change your $PATH.
+# export PATH=$HOME/bin:/usr/local/bin:$PATH
 
-ZSH_THEME="af-magic"
+# Path to your oh-my-zsh installation.
+export ZSH="$HOME/.oh-my-zsh"
+
+# Set name of the theme to load --- if set to "random", it will
+# load a random theme each time oh-my-zsh is loaded, in which case,
+# to know which specific one was loaded, run: echo $RANDOM_THEME
+# See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
+ZSH_THEME="robbyrussell"
+
+# ZSH_THEME="af-magic"
 
 plugins=(git gitfast history zeus ssh-agent bundler history-substring-search)
 
@@ -58,7 +68,12 @@ fi
 unset __conda_setup
 # <<< conda initialize <<<
 
-source /usr/share/nvm/init-nvm.sh
 alias battery=acpi -i
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/home/anfa/google-cloud-sdk/path.zsh.inc' ]; then . '/home/anfa/google-cloud-sdk/path.zsh.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/home/anfa/google-cloud-sdk/completion.zsh.inc' ]; then . '/home/anfa/google-cloud-sdk/completion.zsh.inc'; fi
