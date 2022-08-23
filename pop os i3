@@ -148,7 +148,7 @@ bindsym $mod+Shift+6 move container to workspace $ws6
 bindsym $mod+Shift+7 move container to workspace $ws7
 bindsym $mod+Shift+8 move container to workspace $ws8
 bindsym $mod+Shift+9 move container to workspace $ws9
-bindsym $mod+Shift+0 move container to workspace $ws10
+bindsym $mod+Shift+0 move containe to workspace $ws10
 
 for_window [class="[.]*"] floating enable move position center 
 
@@ -215,22 +215,19 @@ set_from_resource $term_color10    color10
 set_from_resource $term_color11    color11
 set_from_resource $term_color12    color12
 
-set_from_resource $i3-wm.bar.status_command i3-wm.bar.status_command i3xrocks -u ~/.config/regolith2/i3xrocks/conf.d -d /etc/regolith/i3xrocks/conf.d
-
-# Start i3bar to display a workspace bar (plus the system information i3status if available)
 bar {
-    i3bar_command i3bar
-	status_command $i3-wm.bar.status_command
+        i3bar_command i3bar
+
+	status_command i3status
 
 	position bottom
 
 ## please set your primary output first. Example: 'xrandr --output eDP1 --primary'
 #	tray_output primary
-#	tray_output eDP1
+#	tray_output eDP-1
 
 	bindsym button4 nop
 	bindsym button5 nop
-#   font xft:URWGothic-Book 11
 	strip_workspace_numbers yes
 
     colors {
@@ -245,6 +242,8 @@ bar {
         binding_mode       #0d1117 #0d1117 #ffffff
         urgent_workspace   #0d1117 #0d1117 #ffffff
     }
+    
+
 }
 
 # hide/unhide i3status bar
@@ -316,6 +315,9 @@ mode "$mode_gaps_outer" {
         bindsym Return mode "default"
         bindsym Escape mode "default"
 }
+
+
+
 
 ###############################################################################
 # External programs launched with i3
