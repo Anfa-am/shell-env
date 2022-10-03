@@ -43,10 +43,8 @@ let g:ale_completion_enabled = 1
 let g:loaded_matchparen=2
 let g:bookmark_sign = '#'
 let g:ale_fixers = {
- \ 'javascript': ['prettier', 'eslint'],
- \ 'typescript': ['prettier', 'eslint'],
- \ 'javascriptreact': ['prettier', 'eslint'],
- \ 'typescriptreact': ['prettier', 'eslint'],
+ \ 'javascript': ['prettierd', 'eslint_d'],
+ \ 'typescript': ['prettierd', 'eslint_d'],
  \ }
 
 highlight LineNr ctermfg=32
@@ -58,6 +56,7 @@ highlight DiffDelete ctermfg=230 ctermbg=196
 
 call plug#begin('~/.vim/plugged')
 "syntax
+Plug 'github/copilot.vim'
 Plug 'posva/vim-vue'
 Plug 'jelera/vim-javascript-syntax'
 Plug 'othree/html5.vim'
@@ -210,34 +209,6 @@ let g:gutentags_cache_dir = expand('~/.cache/tags')
 let g:gutentags_ctags_extra_args = ['--fields=+niazS', '--extra=+q']
 let g:gutentags_ctags_extra_args += ['--output-format=e-ctags']
 let g:tagbar_ctags_bin = '/usr/bin/ctags'
-
-let g:tagbar_type_typescriptreact = {
-\ 'ctagstype': 'typescript',
-\ 'kinds': [
-  \ 'c:class',
-  \ 'n:namespace',
-  \ 'f:function',
-  \ 'G:generator',
-  \ 'v:variable',
-  \ 'm:method',
-  \ 'p:property',
-  \ 'i:interface',
-  \ 'g:enum',
-  \ 't:type',
-  \ 'a:alias',
-\ ],
-\'sro': '.',
-  \ 'kind2scope' : {
-  \ 'c' : 'class',
-  \ 'n' : 'namespace',
-  \ 'i' : 'interface',
-  \ 'f' : 'function',
-  \ 'G' : 'generator',
-  \ 'm' : 'method',
-  \ 'p' : 'property',
-  \},
-\ }
-
 
 let g:tagbar_type_typescript = {
 \ 'ctagstype': 'typescript',
