@@ -19,6 +19,8 @@ vim.opt.splitbelow = true
 vim.opt.splitright = true
 vim.opt.equalalways = false
 vim.cmd "set diffopt+=vertical,followwrap"
+vim.cmd "set nowrap"
+vim.cmd "set tags=tags"
 vim.opt.ignorecase = true
 vim.opt.smartcase = true
 vim.opt.signcolumn = "yes"
@@ -45,8 +47,6 @@ vim.api.nvim_set_keymap('v', '<leader>f', 'y/<C-R>"<CR>', { noremap = true })
 vim.api.nvim_set_keymap('i', '<C-c>', '<ESC>', { noremap = true })
 vim.api.nvim_set_keymap('i', '<expr><TAB>', 'pumvisible() ? "<C-n>" : "<TAB>"', { expr = true })
 vim.api.nvim_set_keymap('i', '<expr><s-tab>', 'pumvisible() ? "<C-p>" : "<TAB>"', { expr = true })
-
-
 
 vim.cmd([[
 augroup VerticalSplitBorder
@@ -181,9 +181,11 @@ require("lazy").setup({
   },
 
   {
-    'majutsushi/tagbar',
+    -- 'majutsushi/tagbar',
+    'simrat39/symbols-outline.nvim',
     config = function()
-      vim.keymap.set("", "<leader>t", "<cmd>TagbarToggle<cr>", { desc = "toggle mundo ting" })
+      require("symbols-outline").setup()
+      vim.keymap.set("", "<leader>t", "<cmd>SymbolsOutline<cr>", { desc = "toggle mundo ting" })
     end,
 
   },
@@ -336,6 +338,7 @@ require("lazy").setup({
         bashls = {},
         clangd = {},
         cssls = {},
+        cssmodules_ls = {},
         cucumber_language_server = {},
         docker_compose_language_service = {},
         dockerls = {},
@@ -367,11 +370,10 @@ require("lazy").setup({
         sorbet = {},
         svelte = {},
         taplo = {},
-        tailwindcss = {},
+        -- tailwindcss = {},
         vimls = {},
-        volar = {
-          formatting = false,
-        },
+        -- vuels = {},
+        volar = {},
         yamlls = {},
       }
       require('lsp-setup').setup({
@@ -706,7 +708,8 @@ require("lazy").setup({
     },
     config = function()
       vim.keymap.set("n", "<Leader>s", ":10split<Bar>0Git<CR>", { silent = true, desc = "Git status" })
-      vim.keymap.set("n", "<Leader>h", ":GV<CR>", { silent = true, desc = "Git log" })
+      vim.keymap.set("n", "<Leader>h", ":Git log<CR>", { silent = true, desc = "Git log" })
+      vim.keymap.set("n", "<Leader>d", ":Git diff<CR>", { silent = true, desc = "Git diff" })
       vim.keymap.set("n", "<Leader>b", ":Git blame<CR>", { silent = true, desc = "Git blame" })
     end,
   },
@@ -732,3 +735,4 @@ vim.keymap.set('n', '<C-k>', '<C-w>k', { noremap = true, silent = true })
 vim.keymap.set('n', '<C-h>', '<C-w>h', { noremap = true, silent = true })
 vim.keymap.set('n', '<C-l>', '<C-w>l', { noremap = true, silent = true })
 vim.g.bookmark_sign = '#'
+vim.cmd "AutoFormatDisable"
