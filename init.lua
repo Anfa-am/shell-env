@@ -99,7 +99,27 @@ require("lazy").setup({
 
     config = function()
       require('lualine').setup {
+        options = {
+          theme = {
+            visual = {
+              c = {
+                bg = '#1abc9c',
+              },
+            },
+            insert = {
+              c = {
+                bg = '#3498db',
+              },
+            },
+            normal = {
+              c = {
+                bg = '#34495e',
+              },
+            },
+          },
+        },
         sections = {
+
           lualine_x = { 'encoding', 'fileformat', 'filetype', 'filename' },
           lualine_c = {
             {
@@ -174,16 +194,15 @@ require("lazy").setup({
     end,
 
   },
-  'easymotion/vim-easymotion',
-  -- {
-  --   -- 'phaazon/hop.nvim',
-  --   'thisduck/hop.nvim',
-  --   config = function()
-  --     require 'hop'.setup {}
-  --     vim.keymap.set("", "<leader><leader>w", "<cmd>HopWord<cr>", { desc = "Hop word" })
-  --     vim.keymap.set("", "<leader><leader>b", "<cmd>HopWord<cr>", { desc = "Hop line (below cursor)" })
-  --   end
-  -- },
+  {
+    -- 'phaazon/hop.nvim',
+    'thisduck/hop.nvim',
+    config = function()
+      require 'hop'.setup {}
+      vim.keymap.set("", "<leader><leader>w", "<cmd>HopWord<cr>", { desc = "Hop word" })
+      vim.keymap.set("", "<leader><leader>b", "<cmd>HopWord<cr>", { desc = "Hop line (below cursor)" })
+    end
+  },
   "tpope/vim-surround",
   "tpope/vim-repeat",
   {
