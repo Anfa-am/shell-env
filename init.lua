@@ -68,7 +68,6 @@ vim.cmd [[
  \ if &ft !~# 'commit\|rebase' && line("'\"") > 1 && line("'\"") <= line("$") | exe 'normal! g`"' | endif
  ]]
 
-
 -- bootstrap lazy.nvim
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
@@ -135,6 +134,7 @@ require("lazy").setup({
       }
     end
   },
+
   {
     'nvim-treesitter/nvim-treesitter',
     build = function() require('nvim-treesitter.install').update({ with_sync = true }) end,
@@ -166,7 +166,6 @@ require("lazy").setup({
         matchup = {
           enable = true,
         },
-
         indent = {
           enable = true,
         },
@@ -181,7 +180,6 @@ require("lazy").setup({
   },
 
   {
-    -- 'majutsushi/tagbar',
     'simrat39/symbols-outline.nvim',
     config = function()
       require("symbols-outline").setup()
@@ -302,6 +300,8 @@ require("lazy").setup({
     config = function()
       vim.g.matchup_matchparen_offscreen = { method = "popup" }
       vim.keymap.set("n", "<C-k>", "<cmd>MatchupWhereAmI?<cr>")
+      vim.keymap.set('', '<C-S-k>', '[%', { remap = true, silent = true })
+      vim.keymap.set('', '<C-S-j>', ']%', { remap = true, silent = true })
     end,
   },
   {
@@ -370,12 +370,12 @@ require("lazy").setup({
         sorbet = {},
         svelte = {},
         taplo = {},
-        -- tailwindcss = {},
+        tailwindcss = {},
         vimls = {},
-        -- vuels = {},
         volar = {},
         yamlls = {},
       }
+
       require('lsp-setup').setup({
         default_mappings = false,
         mappings = {
@@ -383,11 +383,14 @@ require("lazy").setup({
           gd = "<cmd>Telescope lsp_definitions<cr>",
           gt = "<cmd>Telescope lsp_type_definitions<cr>",
           gi = "<cmd>Telescope lsp_implementations<cr>",
-          gr = "<cmd>Telescope lsp_references<cr>",
+
+          F = "<cmd>Telescope lsp_references<cr>",
           L = "<cmd>lua vim.lsp.buf.hover({ border = 'single'})<cr>",
+
           ["<leader>sh"] = "<cmd>lua vim.lsp.buf.signature_help()<cr>",
-          ["<Leader>rn"] = "<cmd>lua vim.lsp.buf.rename()<cr>",
+          ["<Leader>cw"] = "<cmd>lua vim.lsp.buf.rename()<cr>",
           ["<Leader>ca"] = "<cmd>lua vim.lsp.buf.code_action()<cr>",
+
           ["[d"] = '<cmd>lua vim.diagnostic.goto_prev({ popup_opts = { border = "single" }})<cr>',
           ["]d"] = '<cmd>lua vim.diagnostic.goto_next({ popup_opts = { border = "single" }})<cr>',
         },
@@ -409,7 +412,7 @@ require("lazy").setup({
           if vim.lsp.buf.range_code_action then
             vim.keymap.set(
               "v",
-              "<space>ca",
+              "<Leader>ca",
               vim.lsp.buf.range_code_action,
               { noremap = true, silent = true, buffer = bufnr }
             )
@@ -497,6 +500,7 @@ require("lazy").setup({
       "lukas-reineke/cmp-rg",
       "quangnguyen30192/cmp-nvim-tags",
       "andersevenrud/cmp-tmux",
+      "onsails/lspkind.nvim",
       "petertriho/cmp-git",
       "L3MON4D3/LuaSnip",
       "rafamadriz/friendly-snippets",
@@ -505,6 +509,7 @@ require("lazy").setup({
     config = function()
       vim.cmd([[set completeopt=menu,menuone,noselect]])
 
+      local lspkind = require('lspkind')
       local cmp = require("cmp")
       if not cmp then
         return
@@ -528,15 +533,20 @@ require("lazy").setup({
 
       local pattern = [[[\w_-]{5,60}]]
 
+
       cmp.setup({
         completion = {
           keyword_length = 2,
         },
-        formatting = {
-          format = function(entry, vim_item)
-            vim_item.menu = string.format("[%s]", entry.source.name)
-            return vim_item
-          end,
+      formatting = {
+          format = lspkind.cmp_format({
+            mode = 'symbol',
+            maxwidth = 50,
+            ellipsis_char = '...',
+            before = function (entry, vim_item)
+              return vim_item
+            end
+          })
         },
         snippet = {
           expand = function(args)
@@ -547,28 +557,23 @@ require("lazy").setup({
           documentation = cmp.config.window.bordered(),
         },
         mapping = cmp.mapping.preset.insert({
+          ["<S-Tab>"] = cmp.mapping.select_prev_item(),
+          ["<Tab>"] = cmp.mapping.select_next_item(),
+
           ["<C-k>"] = cmp.mapping.select_prev_item(),
           ["<C-j>"] = cmp.mapping.select_next_item(),
           ["<C-b>"] = cmp.mapping.scroll_docs(-4),
           ["<C-f>"] = cmp.mapping.scroll_docs(4),
           ["<C-Space>"] = cmp.mapping.complete(),
           ["<C-e>"] = cmp.mapping.abort(),
-          ["<Tab>"] = cmp.mapping(function(fallback)
+
+          ["<S-CR>"] = cmp.mapping(function(fallback)
             if cmp.visible() then
               cmp.confirm({ select = true })
             elseif luasnip.expand_or_jumpable() then
               luasnip.expand_or_jump()
             elseif has_words_before() then
               cmp.complete()
-            else
-              fallback()
-            end
-          end, { "i", "s" }),
-          ["<S-Tab>"] = cmp.mapping(function(fallback)
-            if cmp.visible() then
-              cmp.select_prev_item()
-            elseif luasnip.jumpable(-1) then
-              luasnip.jump(-1)
             else
               fallback()
             end
@@ -621,86 +626,19 @@ require("lazy").setup({
       })
 
       require("luasnip").filetype_extend("ruby", { "rails" })
-      require("luasnip.loaders.from_vscode").lazy_load()
+      -- require("luasnip.loaders.from_vscode").lazy_load()
     end,
   },
+
   {
     "ludovicchabant/vim-gutentags",
     config = function()
       vim.cmd [[let g:gutentags_file_list_command = 'rg --files']]
     end,
   },
-  {
-    "zbirenbaum/copilot.lua",
-    config = function()
-      require("copilot").setup({
-        filetypes = {
-          yaml = true,
-          markdown = true,
-        },
-        suggestion = {
-          enabled = true,
-          auto_trigger = true,
-          debounce = 75,
-          keymap = {
-            accept = "<C-l>",
-            accept_word = false,
-            accept_line = false,
-            next = "<C-j>",
-            prev = "<C-k>",
-            dismiss = "<C-h>",
-          },
-        },
-      })
-    end,
-  },
-  {
-    "lewis6991/gitsigns.nvim",
-    config = function()
-      require("gitsigns").setup {
-        on_attach = function(bufnr)
-          local gs = package.loaded.gitsigns
 
-          local function map(mode, l, r, opts)
-            opts = opts or {}
-            opts.buffer = bufnr
-            vim.keymap.set(mode, l, r, opts)
-          end
+  { "lewis6991/gitsigns.nvim" },
 
-          -- Navigation
-          map('n', ']c', function()
-            if vim.wo.diff then return ']c' end
-            vim.schedule(function() gs.next_hunk() end)
-            return '<Ignore>'
-          end, { expr = true })
-
-          map('n', '[c', function()
-            if vim.wo.diff then return '[c' end
-            vim.schedule(function() gs.prev_hunk() end)
-            return '<Ignore>'
-          end, { expr = true })
-
-          -- Actions
-          -- map('n', '<leader>d', gs.diffthis)
-          -- map('n', '<leader>b', function() gs.blame_line { full = true } end)
-
-          -- map('n', '<leader>hs', gs.stage_hunk)
-          -- map('n', '<leader>hr', gs.reset_hunk)
-          -- map('v', '<leader>hs', function() gs.stage_hunk {vim.fn.line("."), vim.fn.line("v")} end)
-          -- map('v', '<leader>hr', function() gs.reset_hunk {vim.fn.line("."), vim.fn.line("v")} end)
-          -- map('n', '<leader>hS', gs.stage_buffer)
-          -- map('n', '<leader>hu', gs.undo_stage_hunk)
-          -- map('n', '<leader>hR', gs.reset_buffer)
-          -- map('n', '<leader>hp', gs.preview_hunk)
-          -- map('n', '<leader>tb', gs.toggle_current_line_blame)
-          -- map('n', '<leader>hD', function() gs.diffthis('~') end)
-
-          -- Text object
-          map({ 'o', 'x' }, 'ih', ':<C-U>Gitsigns select_hunk<CR>')
-        end,
-      }
-    end,
-  },
   {
     "tpope/vim-fugitive",
     dependencies = {
@@ -708,6 +646,7 @@ require("lazy").setup({
     },
     config = function()
       vim.keymap.set("n", "<Leader>s", ":10split<Bar>0Git<CR>", { silent = true, desc = "Git status" })
+      vim.keymap.set("n", "<Leader>g", ":Git<CR>", { silent = true, desc = "Git" })
       vim.keymap.set("n", "<Leader>h", ":Git log<CR>", { silent = true, desc = "Git log" })
       vim.keymap.set("n", "<Leader>d", ":Git diff<CR>", { silent = true, desc = "Git diff" })
       vim.keymap.set("n", "<Leader>b", ":Git blame<CR>", { silent = true, desc = "Git blame" })
@@ -725,7 +664,6 @@ require("lazy").setup({
   "tpope/vim-unimpaired",
   'terryma/vim-multiple-cursors',
   'MattesGroeger/vim-bookmarks'
-
 })
 
 
