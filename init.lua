@@ -96,7 +96,8 @@ require("lazy").setup({
       require("chatgpt").setup()
       vim.keymap.set("n", "<Leader>q", ":ChatGPT<CR>", { silent = true, desc = "Inline GPT" })
       vim.keymap.set("n", "<Leader>Q", ":ChatGPTActAs<CR>", { silent = true, desc = "Inline gpt with context" })
-      vim.keymap.set("v", "<Leader>q", ":ChatGPTRun ", { silent = true, desc = "Run gpt cmd" })
+      vim.keymap.set("v", "<Leader>q", ":ChatGPTRun ", { silent = false, desc = "Run gpt cmd" })
+      vim.keymap.set("v", "<Leader>Q", ":ChatGPTEditWithInstructions ", { silent = false, desc = "Run gpt cmd" })
     end,
 
     dependencies = {
