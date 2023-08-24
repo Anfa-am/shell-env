@@ -90,6 +90,23 @@ require("lazy").setup({
   },
 
   {
+    "jackMort/ChatGPT.nvim",
+    event = "VeryLazy",
+    config = function()
+      require("chatgpt").setup()
+      vim.keymap.set("n", "<Leader>q", ":ChatGPT<CR>", { silent = true, desc = "Inline GPT" })
+      vim.keymap.set("n", "<Leader>Q", ":ChatGPTActAs<CR>", { silent = true, desc = "Inline gpt with context" })
+      vim.keymap.set("v", "<Leader>q", ":ChatGPTRun ", { silent = true, desc = "Run gpt cmd" })
+    end,
+
+    dependencies = {
+      "MunifTanjim/nui.nvim",
+      "nvim-lua/plenary.nvim",
+      "nvim-telescope/telescope.nvim"
+    }
+  },
+
+  {
     'nvim-lualine/lualine.nvim',
     dependencies = {
       'kyazdani42/nvim-web-devicons',
@@ -673,4 +690,5 @@ vim.keymap.set('n', '<C-k>', '<C-w>k', { noremap = true, silent = true })
 vim.keymap.set('n', '<C-h>', '<C-w>h', { noremap = true, silent = true })
 vim.keymap.set('n', '<C-l>', '<C-w>l', { noremap = true, silent = true })
 vim.g.bookmark_sign = '#'
+
 vim.cmd "AutoFormatDisable"
