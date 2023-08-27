@@ -412,7 +412,7 @@ require("lazy").setup({
           gt = "<cmd>Telescope lsp_type_definitions<cr>",
           gi = "<cmd>Telescope lsp_implementations<cr>",
 
-          F = "<cmd>Telescope lsp_references<cr>",
+          ["<leader>F"] = "<cmd>Telescope lsp_references<cr>",
           L = "<cmd>lua vim.lsp.buf.hover({ border = 'single'})<cr>",
 
           ["<leader>sh"] = "<cmd>lua vim.lsp.buf.signature_help()<cr>",
