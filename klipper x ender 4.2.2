@@ -20,7 +20,7 @@ step_pin: PC2
 dir_pin: PB9
 enable_pin: !PC3
 microsteps: 16
-rotation_distance: 40
+rotation_distance: 40.30
 endstop_pin: ^PA5
 position_endstop: 0
 position_max: 235
@@ -31,7 +31,7 @@ step_pin: PB8
 dir_pin: PB7
 enable_pin: !PC3
 microsteps: 16
-rotation_distance: 40
+rotation_distance: 40.39
 endstop_pin: ^PA6
 position_endstop: 0
 position_max: 235
@@ -42,7 +42,7 @@ step_pin: PB6
 dir_pin: !PB5
 enable_pin: !PC3
 microsteps: 16
-rotation_distance: 8
+rotation_distance: 7.78
 #endstop_pin: ^PA7
 endstop_pin: probe:z_virtual_endstop
 position_max: 250
@@ -121,7 +121,7 @@ sensor_pin: ^PB1
 control_pin: PB0
 x_offset: -42.0
 y_offset: -5.0
-z_offset: 1.5
+z_offset: 2.95
 pin_move_time: 0.4
 speed: 20
 probe_with_touch_mode: True
@@ -152,3 +152,31 @@ aliases:
   EXP1_1=PC6,EXP1_3=PB10,EXP1_5=PB14,EXP1_7=PB12,EXP1_9=<GND>,
   EXP1_2=PB2,EXP1_4=PB11,EXP1_6=PB13,EXP1_8=PB15,EXP1_10=<5V>,
   PROBE_IN=PB0,PROBE_OUT=PB1,FIL_RUNOUT=PC6
+
+#*# <---------------------- SAVE_CONFIG ---------------------->
+#*# DO NOT EDIT THIS BLOCK OR BELOW. The contents are auto-generated.
+#*#
+#*# [input_shaper]
+#*# shaper_type_x = ei
+#*# shaper_freq_x = 99.0
+#*# shaper_type_y = mzv
+#*# shaper_freq_y = 35.4
+#*#
+#*# [bed_mesh mesh]
+#*# version = 1
+#*# points =
+#*# 	  -0.047500, -0.020000, -0.035000, -0.012500, -0.100000
+#*# 	  0.052500, 0.037500, 0.000000, 0.007500, -0.080000
+#*# 	  0.080000, 0.045000, -0.002500, 0.030000, -0.055000
+#*# 	  0.120000, 0.100000, 0.035000, 0.042500, -0.050000
+#*# 	  0.085000, 0.075000, 0.012500, 0.050000, -0.065000
+#*# tension = 0.2
+#*# min_x = 15.0
+#*# algo = bicubic
+#*# y_count = 5
+#*# mesh_y_pps = 2
+#*# min_y = 15.0
+#*# x_count = 5
+#*# max_y = 205.0
+#*# mesh_x_pps = 2
+#*# max_x = 190.0
