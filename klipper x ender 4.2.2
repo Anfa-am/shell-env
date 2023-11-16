@@ -1,103 +1,108 @@
-# This file contains common pin mappings for the 2018 Creality
-# Ender 3. To use this config, the firmware should be compiled for the
-# AVR atmega1284p.
+# This file contains pin mappings for the Creality "v4.2.7" board. To
+# use this config, during "make menuconfig" select the STM32F103 with
+# a "28KiB bootloader" and serial (on USART1 PA10/PA9) communication.
 
-# Note, a number of Melzi boards are shipped with a bootloader that
-# requires the following command to flash the board:
-#  avrdude -p atmega1284p -c arduino -b 57600 -P /dev/ttyUSB0 -U out/klipper.elf.hex
-# If the above command does not work and "make flash" does not work
-# then one may need to flash a bootloader to the board - see the
-# Klipper docs/Bootloaders.md file for more information.
+# If you prefer a direct serial connection, in "make menuconfig"
+# select "Enable extra low-level configuration options" and select
+# serial (on USART3 PB11/PB10), which is broken out on the 10 pin IDC
+# cable used for the LCD module as follows:
+# 3: Tx, 4: Rx, 9: GND, 10: VCC
+
+# Flash this firmware by copying "out/klipper.bin" to a SD card and
+# turning on the printer with the card inserted. The firmware
+# filename must end in ".bin" and must not match the last filename
+# that was flashed.
 
 # See docs/Config_Reference.md for a description of parameters.
 
 [stepper_x]
-step_pin: PD7
-dir_pin: !PC5
-enable_pin: !PD6
+step_pin: PC2
+dir_pin: PB9
+enable_pin: !PC3
 microsteps: 16
-rotation_distance: 39.22
-endstop_pin: ^PC2
+rotation_distance: 39.73
+endstop_pin: ^PA5
 position_endstop: 0
 position_max: 235
 homing_speed: 50
 
 [stepper_y]
-step_pin: PC6
-dir_pin: !PC7
-enable_pin: !PD6
+step_pin: PB8
+dir_pin: PB7
+enable_pin: !PC3
 microsteps: 16
-rotation_distance: 40.93
-endstop_pin: ^PC3
+rotation_distance: 40.07
+endstop_pin: ^PA6
 position_endstop: 0
 position_max: 235
 homing_speed: 50
 
 [stepper_z]
-step_pin: PB3
-dir_pin: PB2
-enable_pin: !PA5
+step_pin: PB6
+dir_pin: !PB5
+enable_pin: !PC3
 microsteps: 16
+rotation_distance: 7.79
+#endstop_pin: ^PA7
 endstop_pin: probe:z_virtual_endstop
-rotation_distance: 8.02
-position_min: -2
 position_max: 250
+position_min:-2
 
 [extruder]
 max_extrude_only_distance: 100.0
-step_pin: PB1
-dir_pin: !PB0
-enable_pin: !PD6
+step_pin: PB4
+dir_pin: PB3
+enable_pin: !PC3
 microsteps: 16
-rotation_distance: 32.46
+rotation_distance: 34.75
 nozzle_diameter: 0.400
 filament_diameter: 1.750
-heater_pin: PD5
+heater_pin: PA1
 sensor_type: EPCOS 100K B57560G104F
-sensor_pin: PA7
-#control: pid
-# tuned for stock hardware with 200 degree Celsius target
-#pid_Kp: 21.527
-#pid_Ki: 1.063
-#pid_Kd: 108.982
+min_extrude_temp: 0
+sensor_pin: PC5
+control: pid
+pid_Kp: 21.527
+pid_Ki: 1.063
+pid_Kd: 108.982
 min_temp: 0
 max_temp: 285
 pressure_advance: 0.54
 
+
 [heater_bed]
-heater_pin: PD4
+heater_pin: PA2
 sensor_type: EPCOS 100K B57560G104F
-sensor_pin: PA6
-#control: pid
-# tuned for stock hardware with 50 degree Celsius target
-#pid_Kp: 54.027
-#pid_Ki: 0.770
-#pid_Kd: 948.182
+sensor_pin: PC4
+control: pid
+pid_Kp: 54.027
+pid_Ki: 0.770
+pid_Kd: 948.182
 min_temp: 0
 max_temp: 130
 
 [fan]
-pin: PB4
+pin: PA0
 
 [mcu]
-serial: /dev/serial/by-path/platform-fd500000.pcie-pci-0000:01:00.0-usb-0:1.1:1.0-port0
+serial: /dev/serial/by-path/platform-fd500000.pcie-pci-0000:01:00.0-usb-0:1.2:1.0-port0
+restart_method: command
 
 [printer]
 kinematics: cartesian
 max_velocity: 300
 max_accel: 3000
 max_accel_to_decel: 3000
-square_corner_velocity: 5
 max_z_velocity: 5
 max_z_accel: 100
 
 [display]
 lcd_type: st7920
-cs_pin: PA3
-sclk_pin: PA1
-sid_pin: PC1
-encoder_pins: ^PD2, ^PD3
-click_pin: ^!PC0
+cs_pin: EXP1_7
+sclk_pin: EXP1_6
+sid_pin: EXP1_8
+encoder_pins: ^EXP1_5, ^EXP1_3
+click_pin: ^!EXP1_2
 
 
 #[mcu rpi]
@@ -113,15 +118,16 @@ click_pin: ^!PC0
 
 
 [bltouch]
-sensor_pin: ^PC4
-control_pin: PA4
+sensor_pin: ^PB1
+control_pin: PB0
 x_offset: -42.0
 y_offset: -5.0
-z_offset: 1.30
+z_offset: 2.775
 pin_move_time: 0.4
 speed: 20
-stow_on_each_sample: False  
 probe_with_touch_mode: True
+pin_up_touch_mode_reports_triggered: False
+stow_on_each_sample: False
 
 [bed_mesh]
 speed: 120
@@ -141,35 +147,24 @@ speed: 50
 z_hop: 10                 
 z_hop_speed: 10
 
-# The print bed can move so far to the front, that the nozzle can reach the
-# plastic cover of the print bed heater cable (only when the bed is moved by
-# hand). By homing the Y axis before the X axis, it is ensured the nozzle will
-# not melt through the plastic part.
-# BEWARE: You will lose the ability to home axes individually. The printer will
-# always home all axes for every G28 command.
-#[homing_override]
-#gcode:
-# G28 Y0
-# G28 X0
-# G28 Z0
+
+[board_pins]
+aliases:
+  EXP1_1=PC6,EXP1_3=PB10,EXP1_5=PB14,EXP1_7=PB12,EXP1_9=<GND>,
+  EXP1_2=PB2,EXP1_4=PB11,EXP1_6=PB13,EXP1_8=PB15,EXP1_10=<5V>,
+  PROBE_IN=PB0,PROBE_OUT=PB1,FIL_RUNOUT=PC6
 
 #*# <---------------------- SAVE_CONFIG ---------------------->
 #*# DO NOT EDIT THIS BLOCK OR BELOW. The contents are auto-generated.
 #*#
-#*# [input_shaper]
-#*# shaper_type_x = ei
-#*# shaper_freq_x = 99.0
-#*# shaper_type_y = mzv
-#*# shaper_freq_y = 35.4
-#*#
 #*# [bed_mesh mesh]
 #*# version = 1
 #*# points =
-#*# 	-0.052631, -0.172931, -0.313281, -0.466163, -0.556388
-#*# 	0.182956, 0.007519, -0.165413, -0.318294, -0.428569
-#*# 	0.330825, 0.155387, -0.032581, -0.195488, -0.290725
-#*# 	0.543856, 0.343356, 0.122806, -0.060150, -0.167919
-#*# 	0.586462, 0.428569, 0.270675, 0.127819, 0.077694
+#*# 	  -0.047500, -0.020000, -0.035000, -0.012500, -0.100000
+#*# 	  0.052500, 0.037500, 0.000000, 0.007500, -0.080000
+#*# 	  0.080000, 0.045000, -0.002500, 0.030000, -0.055000
+#*# 	  0.120000, 0.100000, 0.035000, 0.042500, -0.050000
+#*# 	  0.085000, 0.075000, 0.012500, 0.050000, -0.065000
 #*# tension = 0.2
 #*# min_x = 15.0
 #*# algo = bicubic
@@ -177,18 +172,6 @@ z_hop_speed: 10
 #*# mesh_y_pps = 2
 #*# min_y = 15.0
 #*# x_count = 5
-#*# max_y = 204.99
+#*# max_y = 205.0
 #*# mesh_x_pps = 2
-#*# max_x = 189.99
-#*#
-#*# [extruder]
-#*# control = pid
-#*# pid_kp = 25.920
-#*# pid_ki = 1.516
-#*# pid_kd = 110.809
-#*#
-#*# [heater_bed]
-#*# control = pid
-#*# pid_kp = 73.517
-#*# pid_ki = 1.099
-#*# pid_kd = 1229.567
+#*# max_x = 190.0
