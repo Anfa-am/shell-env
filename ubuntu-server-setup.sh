@@ -1,12 +1,12 @@
 #!/bin/bash
 
 sudo apt-get update
-sudo apt-get upgrade
+sudo apt-get upgrade -y
 
-sudo apt-get install git bat neovim neofetch curl wget gnupg
-sudo apt-get install nodejs npm
-sudo apt-get install redis-server
-sudo apt-get install postgresql postgresql-contrib
+sudo apt-get install git zsh bat neovim neofetch curl wget gnupg figlet -y
+sudo apt-get install nodejs npm -y
+sudo apt-get install redis-server -y
+sudo apt-get install postgresql postgresql-contrib -y
 
 sudo apt-get install git
 git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
@@ -26,3 +26,8 @@ sudo systemctl enable redis-server
 
 sudo systemctl start mongod
 sudo systemctl enable mongod
+
+wget -O ~/.zshrc https://raw.githubusercontent.com/Anfa-am/shell-env/master/.zshrc
+
+neofetch
+figlet -f slant "Welcome Mr. Abukar"
