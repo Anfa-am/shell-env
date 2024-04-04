@@ -5,7 +5,6 @@ sudo apt-get upgrade -y
 
 sudo apt-get install git zsh bat neovim neofetch curl wget gnupg figlet -y
 sudo apt-get install nginx certbot -y
-sudo apt-get install nodejs npm -y
 sudo apt-get install redis-server -y
 sudo apt-get install postgresql postgresql-contrib -y
 
@@ -22,7 +21,10 @@ echo "deb [ arch=amd64,arm64 signed-by=/usr/share/keyrings/mongodb-server-7.0.gp
 sudo apt-get update
 sudo apt-get install -y mongodb-org
 
-curl -sL https://raw.githubusercontent.com/Unitech/pm2/master/packager/setup.deb.sh | sudo -E bash -
+curl -sL https://deb.nodesource.com/setup_lts.x | sudo -E bash -
+sudo apt-get install -y nodejs
+
+sudo npm install -g pm2
 
 sudo systemctl start postgresql
 sudo systemctl enable postgresql
@@ -36,7 +38,11 @@ sudo systemctl enable mongod
 sudo systemctl start nginx
 sudo systemctl enable nginx
 
-wget -O ~/.zshrc https://raw.githubusercontent.com/Anfa-am/shell-env/master/.zshrc
+ssh-keygen -t ed25519 -C "anfa@studio14a.com"
+
+wget -O ~/.zshrc https://raw.githubusercontent.com/Anfa-am/shell-env/master/ubuntu-server.zshrc
+
+cat /root/.ssh/id_rsa.pub
 
 neofetch
 figlet -f slant "Welcome Mr. Abukar"
