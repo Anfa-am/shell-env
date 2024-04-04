@@ -3,7 +3,7 @@
 sudo apt-get update
 sudo apt-get upgrade -y
 
-sudo apt-get install git zsh bat neovim neofetch curl wget gnupg figlet -y
+sudo apt-get install git zsh bat neovim neofetch curl wget gnupg htop figlet df -y
 sudo apt-get install nginx certbot -y
 sudo apt-get install redis-server -y
 sudo apt-get install postgresql postgresql-contrib -y
@@ -41,6 +41,13 @@ sudo systemctl enable nginx
 ssh-keygen -t ed25519 -C "anfa@studio14a.com"
 
 wget -O ~/.zshrc https://raw.githubusercontent.com/Anfa-am/shell-env/master/ubuntu-server.zshrc
+
+curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim-linux64.tar.gz
+sudo rm -rf /opt/nvim
+sudo tar -C /opt -xzf nvim-linux64.tar.gz
+
+mkdir /root/.config/nvim
+wget -O /root/.config/nvim/init.lua https://raw.githubusercontent.com/Anfa-am/shell-env/master/init.lua
 
 cat /root/.ssh/id_rsa.pub
 
