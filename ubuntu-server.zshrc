@@ -24,5 +24,8 @@ zmodload zsh/terminfo
 bindkey "$terminfo[kcuu1]" history-substring-search-up
 bindkey "$terminfo[kcud1]" history-substring-search-down
 
+eval "$(ssh-agent -s)"
+ssh-add /root/.ssh/id_rsa
+
 alias vi=nvim
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
