@@ -27,5 +27,7 @@ bindkey "$terminfo[kcud1]" history-substring-search-down
 eval "$(ssh-agent -s)"
 ssh-add /root/.ssh/id_rsa
 
+export PATH="$PATH:/opt/nvim-linux64/bin"
+
 alias vi=nvim
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
