@@ -27,26 +27,26 @@ vim.opt.signcolumn = "yes"
 vim.opt.exrc = true
 vim.opt.background = "dark"
 
-vim.keymap.set("i", "jj", "<Esc>")
-vim.keymap.set('', '//', '<cmd>nohlsearch<cr>')
-vim.keymap.set('', '__', '<cmd>split<cr>')
-vim.keymap.set('', '++', '<cmd>vs<cr>')
-vim.keymap.set('', '((', '<cmd>vertical resize 100000<cr>')
-vim.keymap.set('', '))', '<cmd>res 100000<cr>')
-vim.keymap.set('', '()', '<cmd>wincmd =<cr>')
-vim.keymap.set('', '<leader>ws', '<cmd>%s/\\s\\+$//<CR>')
-vim.keymap.set('', '!', '<cmd>tab split<CR> <cmd>Startify<CR>')
-vim.keymap.set('', '\\', '<cmd>tabn<CR>')
-vim.keymap.set('', '<leader>n', '<cmd>cn<CR>')
-vim.keymap.set('', '<leader>m', '<cmd>cp<CR>')
-
-vim.keymap.set('', 'Y', '"+y', { noremap = true, silent = true })
-vim.keymap.set('n', 'P', '"+p', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('i', 'jj', '<Esc>', { noremap = true })
+vim.api.nvim_set_keymap('', '//', '<cmd>nohlsearch<cr>', { noremap = true })
+vim.api.nvim_set_keymap('', '__', '<cmd>split<cr>', { noremap = true })
+vim.api.nvim_set_keymap('', '++', '<cmd>vs<cr>', { noremap = true })
+vim.api.nvim_set_keymap('', '((', '<cmd>vertical resize 100000<cr>', { noremap = true })
+vim.api.nvim_set_keymap('', '))', '<cmd>res 100000<cr>', { noremap = true })
+vim.api.nvim_set_keymap('', '()', '<cmd>wincmd =<cr>', { noremap = true })
+vim.api.nvim_set_keymap('', '<leader>ws', '<cmd>%s/\\s\\+$//<CR>', { noremap = true })
+vim.api.nvim_set_keymap('', '!', '<cmd>tab split<CR> <cmd>Startify<CR>', { noremap = true })
+vim.api.nvim_set_keymap('', '\\', '<cmd>tabn<CR>', { noremap = true })
+vim.api.nvim_set_keymap('', '<leader>n', '<cmd>cn<CR>', { noremap = true })
+vim.api.nvim_set_keymap('', '<leader>m', '<cmd>cp<CR>', { noremap = true })
+vim.api.nvim_set_keymap('', 'Y', '"+y', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', 'P', '"+p', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', '<leader>f', '*', { noremap = true })
 vim.api.nvim_set_keymap('v', '<leader>f', 'y/<C-R>"<CR>', { noremap = true })
 vim.api.nvim_set_keymap('i', '<C-c>', '<ESC>', { noremap = true })
 vim.api.nvim_set_keymap('i', '<expr><TAB>', 'pumvisible() ? "<C-n>" : "<TAB>"', { expr = true })
 vim.api.nvim_set_keymap('i', '<expr><s-tab>', 'pumvisible() ? "<C-p>" : "<TAB>"', { expr = true })
+
 
 vim.cmd([[
 augroup VerticalSplitBorder
@@ -87,7 +87,16 @@ require("lazy").setup({
     "olimorris/onedarkpro.nvim",
     priority = 1000 -- Ensure it loads first
   },
+  {
+    "gorbit99/codewindow.nvim",
+    config = function()
+      local codewindow = require('codewindow')
+      codewindow.setup()
+      codewindow.apply_default_keybinds()
 
+      vim.keymap.set('', '<leader><leader>m', function () return codewindow.toggle_minimap()  end, { expr = false })
+    end,
+  },
   {
     'Exafunction/codeium.vim',
     config = function ()
@@ -170,7 +179,7 @@ require("lazy").setup({
       "windwp/nvim-ts-autotag",
       "RRethy/nvim-treesitter-endwise",
       "JoosepAlviste/nvim-ts-context-commentstring",
-      "p00f/nvim-ts-rainbow",
+      "HiPhish/nvim-ts-rainbow2",
     },
     config = function()
       require 'nvim-treesitter.configs'.setup {
@@ -186,10 +195,6 @@ require("lazy").setup({
         },
         context_commentstring = {
           enable = true,
-        },
-        rainbow = {
-          enable = true,
-          extended_mode = true,
         },
         matchup = {
           enable = true,
@@ -235,7 +240,7 @@ require("lazy").setup({
   "tpope/vim-repeat",
   {
     'nvim-telescope/telescope.nvim',
-    tag = '0.1.1',
+    tag = '0.1.4',
     dependencies = {
       { 'nvim-lua/plenary.nvim' },
       { "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
@@ -614,7 +619,7 @@ require("lazy").setup({
           cmp_all_buffers,
           { name = "path" },
           { name = "tags" },
-          { name = "treesitter" },
+          { name = "nvim" },
           { name = "rg",        option = { pattern = pattern } },
           {
             name = "tmux",
