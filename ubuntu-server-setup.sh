@@ -43,7 +43,7 @@ figlet -f slant "Welcome Mr. Abukar"
 
 echo "It's restart ting styll in 10 seconds brev. Press Ctrl+C to cancel innit."
 
-for i in {10..1}; do
+for i in {5..1}; do
     echo -n "$i "
     sleep 1
 done
