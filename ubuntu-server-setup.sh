@@ -9,7 +9,6 @@ sudo apt-get install nginx certbot -y < "/dev/null"
 sudo apt-get install redis-server -y < "/dev/null"
 sudo apt-get install postgresql postgresql-contrib -y < "/dev/null"
 
-sudo apt-get install git
 git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
 ~/.fzf/install --all < "/dev/null"
 
@@ -57,14 +56,13 @@ cat /root/.ssh/id_rsa.pub
 neofetch
 figlet -f slant "Welcome Mr. Abukar"
 
-echo "It's restart ting styll in 10 seconds brev. Press Ctrl+C to cancel innit."
+echo "Restarting in 10 seconds brev. Press Ctrl+C to cancel innit."
 
 for i in {5..1}; do
     echo -n "$i "
     sleep 1
 done
 
-echo "BOOM!"
-echo "You dun know"
+echo "Bye!"
 
 sudo shutdown -r now
