@@ -1,7 +1,7 @@
 #!/bin/bash
 
 sudo apt-get update
-sudo apt-get upgrade -y -q
+sudo apt-get upgrade -y < "/dev/null"
 
 sudo apt-get install git zsh bat neovim neofetch curl wget gnupg htop openvpn figlet -y  < "/dev/null"
 sudo apt-get install nginx certbot -y < "/dev/null"
@@ -25,6 +25,8 @@ curl -sL https://deb.nodesource.com/setup_lts.x | sudo -E bash -
 sudo apt-get install -y nodejs < "/dev/null"
 
 sudo npm install -g pm2
+
+curl -sSL https://get.haskellstack.org/ | sh
 
 sudo systemctl start postgresql < "/dev/null"
 sudo systemctl enable postgresql < "/dev/null"
