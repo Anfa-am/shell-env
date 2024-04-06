@@ -29,5 +29,7 @@ ssh-add /root/.ssh/id_rsa
 
 export PATH="$PATH:/opt/nvim-linux64/bin"
 
+export NODE_OPTIONS=--openssl-legacy-provider
+
 alias vi=nvim
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
