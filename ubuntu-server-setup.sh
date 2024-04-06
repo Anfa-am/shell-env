@@ -4,6 +4,7 @@ sudo apt-get update
 sudo apt-get upgrade -y < "/dev/null"
 
 sudo apt-get install git zsh bat neovim neofetch curl wget gnupg htop openvpn figlet -y  < "/dev/null"
+sudo apt-get install pkg-config libpcre3 libpcre3-dev -y  < "/dev/null"
 sudo apt-get install nginx certbot -y < "/dev/null"
 sudo apt-get install redis-server -y < "/dev/null"
 sudo apt-get install postgresql postgresql-contrib -y < "/dev/null"
