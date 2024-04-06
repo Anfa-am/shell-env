@@ -1,16 +1,16 @@
 #!/bin/bash
 
 sudo apt-get update
-sudo apt-get upgrade -y
+sudo apt-get upgrade -y -q
 
-sudo apt-get install git zsh bat neovim neofetch curl wget gnupg htop figlet df -y
-sudo apt-get install nginx certbot -y
-sudo apt-get install redis-server -y
-sudo apt-get install postgresql postgresql-contrib -y
+sudo apt-get install git zsh bat neovim neofetch curl wget gnupg htop openvpn figlet -y  < "/dev/null"
+sudo apt-get install nginx certbot -y < "/dev/null"
+sudo apt-get install redis-server -y < "/dev/null"
+sudo apt-get install postgresql postgresql-contrib -y < "/dev/null"
 
 sudo apt-get install git
 git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
-~/.fzf/install
+~/.fzf/install --all < "/dev/null"
 
 curl -fsSL https://www.mongodb.org/static/pgp/server-7.0.asc | \
    sudo gpg -o /usr/share/keyrings/mongodb-server-7.0.gpg \
@@ -18,25 +18,25 @@ curl -fsSL https://www.mongodb.org/static/pgp/server-7.0.asc | \
 
 echo "deb [ arch=amd64,arm64 signed-by=/usr/share/keyrings/mongodb-server-7.0.gpg ] https://repo.mongodb.org/apt/ubuntu jammy/mongodb-org/7.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-7.0.list
 
-sudo apt-get update
-sudo apt-get install -y mongodb-org
+sudo apt-get update 
+sudo apt-get install -y mongodb-org  < "/dev/null"
 
 curl -sL https://deb.nodesource.com/setup_lts.x | sudo -E bash -
-sudo apt-get install -y nodejs
+sudo apt-get install -y nodejs < "/dev/null"
 
 sudo npm install -g pm2
 
-sudo systemctl start postgresql
-sudo systemctl enable postgresql
+sudo systemctl start postgresql < "/dev/null"
+sudo systemctl enable postgresql < "/dev/null"
 
-sudo systemctl start redis-server
-sudo systemctl enable redis-server
+sudo systemctl start redis-server < "/dev/null"
+sudo systemctl enable redis-server < "/dev/null"
 
-sudo systemctl start mongod
-sudo systemctl enable mongod
+sudo systemctl start mongod < "/dev/null"
+sudo systemctl enable mongod < "/dev/null"
 
-sudo systemctl start nginx
-sudo systemctl enable nginx
+sudo systemctl start nginx < "/dev/null"
+sudo systemctl enable nginx < "/dev/null"
 
 ssh-keygen -t ed25519 -C "anfa@studio14a.com"
 
