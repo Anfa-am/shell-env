@@ -27,6 +27,7 @@ vim.opt.signcolumn = "yes"
 vim.opt.exrc = true
 vim.opt.background = "dark"
 
+
 vim.api.nvim_set_keymap('i', 'jj', '<Esc>', { noremap = true })
 vim.api.nvim_set_keymap('', '//', '<cmd>nohlsearch<cr>', { noremap = true })
 vim.api.nvim_set_keymap('', '__', '<cmd>split<cr>', { noremap = true })
@@ -83,9 +84,29 @@ vim.opt.rtp:prepend(lazypath)
 
 -- plugins.
 require("lazy").setup({
+
+  -- one dark theme
+  -- {
+  --   "olimorris/onedarkpro.nvim",
+  --   priority = 1000,
+  --   config = function()
+  --     vim.cmd("colorscheme onedark")
+  --   end,
+  -- },
   {
-    "olimorris/onedarkpro.nvim",
-    priority = 1000 -- Ensure it loads first
+    "scottmckendry/cyberdream.nvim",
+    lazy = false,
+    priority = 1000,
+    config = function()
+      require("cyberdream").setup({
+        transparent = true,
+        italic_comments = true,
+        hide_fillchars = true,
+        borderless_telescope = false,
+        terminal_colors = true,
+      })
+      vim.cmd("colorscheme cyberdream")
+    end,
   },
   {
     "gorbit99/codewindow.nvim",
@@ -94,14 +115,14 @@ require("lazy").setup({
       codewindow.setup()
       codewindow.apply_default_keybinds()
 
-      vim.keymap.set('', '<leader><leader>m', function () return codewindow.toggle_minimap()  end, { expr = false })
+      vim.keymap.set('', '<leader><leader>m', function() return codewindow.toggle_minimap() end, { expr = false })
     end,
   },
   {
     'Exafunction/codeium.vim',
-    config = function ()
+    config = function()
       -- Change '<C-g>' here to any keycode you like.
-      vim.keymap.set('i', '<C-g>', function () return vim.fn['codeium#Accept']() end, { expr = true })
+      vim.keymap.set('i', '<C-g>', function() return vim.fn['codeium#Accept']() end, { expr = true })
       vim.keymap.set('i', '<c-n>', function() return vim.fn['codeium#CycleCompletions'](1) end, { expr = true })
       vim.keymap.set('i', '<c-m>', function() return vim.fn['codeium#CycleCompletions'](-1) end, { expr = true })
       vim.keymap.set('i', '<c-x>', function() return vim.fn['codeium#Clear']() end, { expr = true })
@@ -113,10 +134,11 @@ require("lazy").setup({
     event = "VeryLazy",
     config = function()
       require("chatgpt").setup()
-      vim.keymap.set("n", "<C-q>", ":ChatGPT<CR>", { silent = true, desc = "Inline GPT" })
-      vim.keymap.set("n", "<C-S-q>", ":ChatGPTActAs<CR>", { silent = true, desc = "Inline gpt with context" })
-      vim.keymap.set("v", "<C-S-q>", ":'<,'>yank<CR>:ChatGPTEditWithInstructions<CR>", { silent = false, desc = "Run gpt cmd" })
-      vim.keymap.set("v", "<C-q>", ":ChatGPTRun ", { silent = false, desc = "Run gpt cmd" })
+      vim.keymap.set("n", "<leader>q", ":ChatGPT<CR>", { silent = true, desc = "Inline GPT" })
+      vim.keymap.set("n", "<leader><leader>q", ":ChatGPTActAs<CR>", { silent = true, desc = "Inline gpt with context" })
+      vim.keymap.set("v", "<leader><leader>q", ":'<,'>yank<CR>:ChatGPTEditWithInstructions<CR>",
+        { silent = false, desc = "Run gpt cmd" })
+      vim.keymap.set("v", "<leader>q", ":ChatGPTRun ", { silent = false, desc = "Run gpt cmd" })
     end,
 
     dependencies = {
@@ -136,23 +158,26 @@ require("lazy").setup({
     config = function()
       require('lualine').setup {
         options = {
-          theme = {
-            visual = {
-              c = {
-                bg = '#1abc9c',
-              },
-            },
-            insert = {
-              c = {
-                bg = '#3498db',
-              },
-            },
-            normal = {
-              c = {
-                bg = '#34495e',
-              },
-            },
-          },
+          theme = 'cyberdream',
+
+          -- one dark theme only
+          -- theme = {
+          --   visual = {
+          --     c = {
+          --       bg = '#1abc9c',
+          --     },
+          --   },
+          --   insert = {
+          --     c = {
+          --       bg = '#3498db',
+          --     },
+          --   },
+          --   normal = {
+          --     c = {
+          --       bg = '#34495e',
+          --     },
+          --   },
+          -- },
         },
         sections = {
 
@@ -523,7 +548,15 @@ require("lazy").setup({
     end,
   },
   {
+    "L3MON4D3/LuaSnip",
+    -- follow latest release.
+    version = "v2.*", -- Replace <CurrentMajor> by the latest released major (first number of latest release)
+    -- install jsregexp (optional!).
+    build = "make install_jsregexp"
+  },
+  {
     "hrsh7th/nvim-cmp",
+
     dependencies = {
       "hrsh7th/cmp-nvim-lsp",
       "hrsh7th/cmp-buffer",
@@ -535,7 +568,7 @@ require("lazy").setup({
       "andersevenrud/cmp-tmux",
       "onsails/lspkind.nvim",
       "petertriho/cmp-git",
-      "L3MON4D3/LuaSnip",
+      -- "L3MON4D3/LuaSnip",
       "rafamadriz/friendly-snippets",
       "saadparwaiz1/cmp_luasnip",
     },
@@ -571,12 +604,12 @@ require("lazy").setup({
         completion = {
           keyword_length = 2,
         },
-      formatting = {
+        formatting = {
           format = lspkind.cmp_format({
             mode = 'symbol',
             maxwidth = 50,
             ellipsis_char = '...',
-            before = function (entry, vim_item)
+            before = function(entry, vim_item)
               return vim_item
             end
           })
@@ -620,7 +653,7 @@ require("lazy").setup({
           { name = "path" },
           { name = "tags" },
           { name = "nvim" },
-          { name = "rg",        option = { pattern = pattern } },
+          { name = "rg",  option = { pattern = pattern } },
           {
             name = "tmux",
             option = {
@@ -700,7 +733,6 @@ require("lazy").setup({
 })
 
 
-vim.cmd("colorscheme onedark")
 vim.keymap.set('n', '<C-j>', '<C-w>j', { noremap = true, silent = true })
 vim.keymap.set('n', '<C-k>', '<C-w>k', { noremap = true, silent = true })
 vim.keymap.set('n', '<C-h>', '<C-w>h', { noremap = true, silent = true })
