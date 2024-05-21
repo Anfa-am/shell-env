@@ -40,7 +40,7 @@ sudo systemctl enable mongod < "/dev/null"
 sudo systemctl start nginx < "/dev/null"
 sudo systemctl enable nginx < "/dev/null"
 
-ssh-keygen -t ed25519 -C "anfa@studio14a.com"
+# ssh-keygen -t ed25519 -C "anfa@studio14a.com"
 
 wget -O ~/.zshrc https://raw.githubusercontent.com/Anfa-am/shell-env/master/ubuntu-server.zshrc
 
