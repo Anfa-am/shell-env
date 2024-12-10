@@ -62,12 +62,11 @@ if [ -f '/Users/anfa/Downloads/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/
 
 # The next line enables shell command completion for gcloud.
 if [ -f '/Users/anfa/Downloads/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/anfa/Downloads/google-cloud-sdk/completion.zsh.inc'; fi
-
 export PATH="/usr/local/opt/postgresql@13/bin:$PATH"
 export PATH="/Users/anfa/Library/Python/3.13/bin:$PATH"
 
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
 export PATH="$PATH:$HOME/.rvm/bin"
 
-export PATH="$HOME/.rvm/gems/ruby-2.7.8/bin:$PATH"
-[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
+export LDFLAGS="-L/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/lib"
+export CFLAGS="-I/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include"
