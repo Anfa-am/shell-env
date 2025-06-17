@@ -47,6 +47,8 @@ vim.api.nvim_set_keymap('v', '<leader>f', 'y/<C-R>"<CR>', { noremap = true })
 vim.api.nvim_set_keymap('i', '<C-c>', '<ESC>', { noremap = true })
 vim.api.nvim_set_keymap('i', '<expr><TAB>', 'pumvisible() ? "<C-n>" : "<TAB>"', { expr = true })
 vim.api.nvim_set_keymap('i', '<expr><s-tab>', 'pumvisible() ? "<C-p>" : "<TAB>"', { expr = true })
+vim.api.nvim_set_keymap('n', '<C-j>', '<cmd>m +1', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<C-k>', '<cmd>m -1', { noremap = true, silent = true })
 
 
 vim.cmd([[
@@ -203,7 +205,7 @@ require("lazy").setup({
     dependencies = {
       "windwp/nvim-ts-autotag",
       "RRethy/nvim-treesitter-endwise",
-      "JoosepAlviste/nvim-ts-context-commentstring",
+      -- "JoosepAlviste/nvim-ts-context-commentstring",
       "HiPhish/nvim-ts-rainbow2",
     },
     config = function()
@@ -237,14 +239,37 @@ require("lazy").setup({
     end,
   },
 
-  {
-    'simrat39/symbols-outline.nvim',
+{
+    'hedyhli/outline.nvim',
     config = function()
-      require("symbols-outline").setup()
-      vim.keymap.set("", "<leader>t", "<cmd>SymbolsOutline<cr>", { desc = "toggle mundo ting" })
+      vim.keymap.set("", "<leader>t", "<cmd>Outline<CR>",
+        { desc = "Toggle Outline" })
+      require('outline').setup({
+        providers = {
+          priority = { 'lsp', 'coc', 'markdown', 'norg', 'treesitter' },
+        },
+        symbol_folding = {
+          autofold_depth = false,
+        },
+        keymaps = {
+          fold_toggle = 'za',
+        },
+      })
     end,
-
+    event = "VeryLazy",
+    dependencies = {
+      'epheien/outline-treesitter-provider.nvim'
+    }
   },
+
+  -- {
+  --   'simrat39/symbols-outline.nvim',
+  --   config = function()
+  --     require("symbols-outline").setup()
+  --     vim.keymap.set("", "<leader>t", "<cmd>SymbolsOutline<cr>", { desc = "toggle mundo ting" })
+  --   end,
+
+  -- },
   {
     'simnalamburt/vim-mundo',
     config = function()
@@ -253,8 +278,8 @@ require("lazy").setup({
 
   },
   {
-    -- 'phaazon/hop.nvim',
-    'thisduck/hop.nvim',
+    'phaazon/hop.nvim',
+    -- 'thisduck/hop.nvim',
     config = function()
       require 'hop'.setup {}
       vim.keymap.set("", "<leader><leader>w", "<cmd>HopWord<cr>", { desc = "Hop word" })
@@ -407,9 +432,8 @@ require("lazy").setup({
         gopls = {},
         html = {},
         jsonls = {},
-        tsserver = {
-          formatting = false,
-        },
+        tsp_server = {},
+        -- tsserver = {},
         lua_ls = {
           settings = {
             Lua = {
@@ -430,7 +454,7 @@ require("lazy").setup({
         taplo = {},
         tailwindcss = {},
         vimls = {},
-        volar = {},
+        vue_ls = {},
         yamlls = {},
       }
 
@@ -525,10 +549,11 @@ require("lazy").setup({
     end,
   },
   {
-    "jose-elias-alvarez/null-ls.nvim",
+    "nvimtools/none-ls.nvim",
+    dependencies = { "nvim-lua/plenary.nvim" },
     config = function()
-      local null_ls = require "null-ls"
-      require("null-ls").setup {
+      local null_ls = require("null-ls")
+      null_ls.setup({
         sources = {
           null_ls.builtins.code_actions.gitsigns,
           null_ls.builtins.formatting.prettier.with {
@@ -538,9 +563,26 @@ require("lazy").setup({
             },
           },
         },
-      }
+      })
     end,
   },
+  -- {
+  --   "jose-elias-alvarez/null-ls.nvim",
+  --   config = function()
+  --     local null_ls = require "null-ls"
+  --     require("null-ls").setup {
+  --       sources = {
+  --         null_ls.builtins.code_actions.gitsigns,
+  --         null_ls.builtins.formatting.prettier.with {
+  --           filetypes = {
+  --             "markdown",
+  --             "yaml",
+  --           },
+  --         },
+  --       },
+  --     }
+  --   end,
+  -- },
   {
     "stevearc/dressing.nvim",
     config = function()
@@ -727,6 +769,9 @@ require("lazy").setup({
       vim.cmd [[tnoremap <silent><C-k> <C-\><C-n><C-w>k]]
     end,
   },
+
+  {'akinsho/git-conflict.nvim', version = "*", config = true},
+
   "tpope/vim-unimpaired",
   'terryma/vim-multiple-cursors',
   'MattesGroeger/vim-bookmarks'
