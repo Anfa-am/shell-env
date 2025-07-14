@@ -29,6 +29,7 @@ vim.opt.background = "dark"
 
 
 vim.api.nvim_set_keymap('i', 'jj', '<Esc>', { noremap = true })
+-- vim.api.nvim_set_keymap('', 'pj', '<cmd>syntax off | setfiletype text | lua vim.lsp.stop_client(vim.lsp.get_active_clients(), true)<cr>', { noremap = true })
 vim.api.nvim_set_keymap('', '//', '<cmd>nohlsearch<cr>', { noremap = true })
 vim.api.nvim_set_keymap('', '__', '<cmd>split<cr>', { noremap = true })
 vim.api.nvim_set_keymap('', '++', '<cmd>vs<cr>', { noremap = true })
@@ -69,6 +70,7 @@ vim.cmd [[
  autocmd BufRead * autocmd FileType <buffer> ++once
  \ if &ft !~# 'commit\|rebase' && line("'\"") > 1 && line("'\"") <= line("$") | exe 'normal! g`"' | endif
  ]]
+
 
 -- bootstrap lazy.nvim
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
@@ -297,20 +299,18 @@ require("lazy").setup({
     },
     config = function()
       local actions = require "telescope.actions"
-      require 'telescope'.setup {
-        defaults = require("telescope.themes").get_ivy {
-          mappings = {
-            n = {
-              -- ["<CR>"] = require('telescope.actions').select_default,
-              ['<C-CR>'] = actions.smart_add_to_qflist + actions.open_qflist,
-            },
-            i = {
-              ['<C-CR>'] = actions.smart_add_to_qflist + actions.open_qflist,
-              ["<C-j>"] = actions.move_selection_next,
-              ["<C-k>"] = actions.move_selection_previous,
-            },
-          },
+      require("telescope").setup {
+        defaults = {
+          mirroring = true,
+          layout_strategy = "bottom_pane",
+          dynamic_preview_title = true,
 
+          layout_config = {
+            width = 0.99,
+            height = 0.5,
+            position = "top",
+            prompt_position = "bottom",
+          },
         },
         extensions = {
           fzf = {
